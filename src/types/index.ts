@@ -7,38 +7,43 @@ interface IProductItem {
     price: number | null;
 }
 
-interface ICatalogModel {
-  items: IProductItem[];
-  setCatalog(items: IProductItem[]): void;
-  setPreview(id: string): IProductItem;
-}
-
-interface IBasketModel {
-  items: Map<string, number>;
-  add(id: string): void;
-  remove(id: string): void;
+interface IAppState {
+  basket: IProductItem[];
+  catalog: IProductItem[];
+  order: IOrderModel;
+  formErrors: IFormState;
+  addToBasket(id: string): void;
+  removeFromBasket(id: string): void;
+  clearBasket(): void;
   getTotalPrice(): number;
   countProducts(): number;
+  setOrderField(field: keyof IOrderModel, value: string): void;
+  validateAdress(): void;
+  validateContacts(): void;
 }
 
 interface IOrderModel {
-  payment: boolean;
+  payment: string;
   adress: string;
   email: string;
   phone: string;
+  total: number;
   items: string[];
-  setOrderAddress (field: string, value: string): void;
-  validateOrder(): void;
-  setOrderContacts(field: string, value: string): void;
-  validateContacts(): void;
-  getOrderLot(): object;
+}
+
+interface IModalData {
+  content: HTMLElement;
+}
+
+interface IFormState {
+  valid: boolean;
+  errors: string[];
 }
 
 interface IPage {
   counter: number;
   catalog: HTMLElement[];
-  setCatalog(items: HTMLElement[]): void;
-  countBasketItems(value: number): void;
+  basket: HTMLElement;
 }
 
 interface ICard {
@@ -48,6 +53,7 @@ interface ICard {
   title: string;
   category: string;
   price: number | null;
+  selected: boolean;
 }
 
 interface IBasket {
@@ -55,14 +61,12 @@ interface IBasket {
   price: number;
 }
 
-interface IOrderForm {
-  payment: string;
-  adress: string;
+interface ISuccess {
+  total: number;
 }
 
-interface IContactsForm {
-  email: string;
-  phone: string;
+interface ISuccessActions {
+  onClick: () => void;
 }
 
 type EventName = string | RegExp;
@@ -72,6 +76,3 @@ interface IEvents {
   emit<T extends object>(event: string, data?: T): void;
   trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void;
 }
-
-
-
