@@ -12,6 +12,7 @@ interface IAppState {
   catalog: IProductItem[];
   order: IOrderModel;
   formErrors: IFormState;
+  setCatalog(data: IProductItem[]): void;
   addToBasket(id: string): void;
   removeFromBasket(id: string): void;
   clearBasket(): void;
