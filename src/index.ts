@@ -3,12 +3,12 @@ import './scss/styles.scss';
 import { ApiAddition } from './components/ApiAddition';
 import {API_URL, CDN_URL} from "./utils/constants";
 import {EventEmitter} from "./components/base/Events";
-import {AppState} from "./components/AppData";
+import {AppState} from "./components/AppState";
 import {Page} from "./components/Page";
-import {Card,CardPreview, BasketCard } from "./components/Card";
+import {Card,CardPreview} from "./components/Card";
 import {cloneTemplate,  ensureElement} from "./utils/utils";
 import {Modal} from "./components/common/Modal";
-import {Basket} from "./components/Basket";
+import {Basket, BasketCard} from "./components/Basket";
 import { PopupOrder } from './components/PopupOrder';
 import { PopupContacts } from './components/PopupContacts';
 import {CatalogChangeEvent, IOrderModel, IProductItem} from "./types/index";
@@ -25,10 +25,8 @@ events.onAll(({ eventName, data }) => {
 // Все шаблоны
 const cardCatalogTemplate = ensureElement<HTMLTemplateElement>('#card-catalog');
 const cardPreviewTemplate = ensureElement<HTMLTemplateElement>('#card-preview');
-// const auctionTemplate = ensureElement<HTMLTemplateElement>('#auction');
 const cardBasketTemplate = ensureElement<HTMLTemplateElement>('#card-basket');
 const basketTemplate = ensureElement<HTMLTemplateElement>('#basket');
-//const Template = ensureElement<HTMLTemplateElement>('#sold');
 const orderFormTemplate = ensureElement<HTMLTemplateElement>('#order');
 const contactsFormTemplate = ensureElement<HTMLTemplateElement>('#contacts');
 const successTemplate = ensureElement<HTMLTemplateElement>('#success');
@@ -118,9 +116,8 @@ events.on('card:deletefromPreview', (item: IProductItem) => {
 // открыть корзину
 events.on('basket:open', () => {
   basket.total = appData.getTotalPrice();
-  if (appData.basket.items.length === 0) {
-    basket.disableBasketBtn(true)
-  };
+  appData.basket.items.length === 0 ? basket.disableBasketBtn(true) : basket.disableBasketBtn(false);
+
   let i = 0;
   basket.list = appData.basket.items.map(item => {
     const basketCard = new BasketCard(cloneTemplate(cardBasketTemplate), {
@@ -215,12 +212,12 @@ events.on('contacts:submit', () => {
 
 // Блокируем прокрутку страницы если открыта модалка
 events.on('modal:open', () => {
-   page.locked = true;
+   page.setLocked(true);
 });
 
  // ... и разблокируем
  events.on('modal:close', () => {
-    page.locked = false;
+    page.setLocked(false);
  });
 
 

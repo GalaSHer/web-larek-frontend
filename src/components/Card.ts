@@ -1,5 +1,5 @@
 import {Component} from "./base/Component";
-import {ICardActions, ICard, IBasketCard} from "../types/index";
+import {ICardActions, ICard} from "../types/index";
 import {ensureElement} from "../utils/utils";
 
 export class Card extends Component<ICard> {
@@ -96,71 +96,3 @@ export class CardPreview extends Card {
     }
   }
 }
-
-export class BasketCard extends Component<IBasketCard> {
-  protected _productIndex: HTMLElement;
-  protected _title: HTMLElement;
-  protected _button: HTMLButtonElement;
-  protected _price: HTMLElement;
-
-  constructor(container: HTMLElement,  actions?: ICardActions) {
-      super(container);
-
-      this._productIndex = ensureElement<HTMLElement>(`.basket__item-index`, container);
-      this._title = ensureElement<HTMLElement>(`.card__title`, container);
-      this._price = ensureElement<HTMLElement>(`.card__price`, container);
-      this._button = ensureElement<HTMLButtonElement>(`.basket__item-delete`, container);
-
-      if (actions?.onClick) {
-        this._button.addEventListener('click', actions.onClick);
-  }
-}
-
-  set productIndex(value: number) {
-     this.setText(this._productIndex, value);
-  }
-
-  set title(value: string) {
-    this.setText(this._title, value);
-  }
-
-  set price(value: number | null) {
-    if (value === null) {
-      this.setText(this._price, `0 синапсов`)
-    } else {
-      this.setText(this._price, `${value} синапсов`)
-    }; 
-  }
-}
-
-// export type AuctionStatus = {
-//     status: string,
-//     time: string,
-//     label: string,
-//     nextBid: number,
-//     history: number[]
-// };
-
-// export class AuctionItem extends Card<HTMLElement> {
-//     protected _status: HTMLElement;
-
-//     constructor(container: HTMLElement, actions?: ICardActions) {
-//         super('lot', container, actions);
-//         this._status = ensureElement<HTMLElement>(`.lot__status`, container);
-//     }
-
-//     set status(content: HTMLElement) {
-//         this._status.replaceWith(content);
-//     }
-// }
-
-// interface IAuctionActions {
-//     onSubmit: (price: number) => void;
-// }
-
-
-
-// export interface BidStatus {
-//     amount: number;
-//     status: boolean;
-// }

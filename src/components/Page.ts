@@ -31,7 +31,7 @@ export class Page extends Component<IPage> {
         this._catalog.replaceChildren(...items);
     }
 
-    set locked(value: boolean) {
+    setLocked(value: boolean) {
         if (value) {
             this._wrapper.classList.add('page__wrapper_locked');
         } else {
