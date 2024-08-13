@@ -8,6 +8,7 @@
   display: none;
   justify-content: center;
   background-color: $overlayBackground;
+  min-height: 90vmin;
   z-index: 100;
   padding-top: 5vh;
   padding-bottom: 5vh;
@@ -21,7 +22,7 @@
     @include mixins.flex(column);
     gap: $defaultPadding;
     background-color: $background;
-    min-height: 90vmin;
+    height: 100%;
     border-radius: 3rem;
     box-sizing: border-box;
     position: relative;

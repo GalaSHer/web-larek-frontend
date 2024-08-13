@@ -1,79 +1,106 @@
-interface IProductItem {
+export interface IProductItem {
     id: string;
     description: string;
     image: string;
     title: string;
     category: string;
     price: number | null;
+    selected: boolean;
 }
 
-interface IAppState {
-  basket: IProductItem[];
+export interface ApiResponse {
+  items: IProductItem[];
+}
+
+export type CatalogChangeEvent = {
+  catalog: IProductItem[]
+};
+
+export interface IAppState {
+  basket: IBasket;
   catalog: IProductItem[];
   order: IOrderModel;
-  formErrors: IFormState;
+  preview: string | null;
+  formErrors: FormErrors;
   setCatalog(data: IProductItem[]): void;
   addToBasket(id: string): void;
   removeFromBasket(id: string): void;
   clearBasket(): void;
+  isInBasket(id: string): boolean;
   getTotalPrice(): number;
   countProducts(): number;
+  setPreview(item: IProductItem): void;
   setOrderField(field: keyof IOrderModel, value: string): void;
-  validateAdress(): void;
+  validateAddress(): void;
   validateContacts(): void;
+  getProductIDs(): string[];
 }
 
-interface IOrderModel {
+export interface IOrderModel {
   payment: string;
-  adress: string;
+  address: string;
   email: string;
   phone: string;
-  total: number;
-  items: string[];
 }
 
-interface IModalData {
+export type FormErrors = Partial<Record<keyof IOrderModel, string>>;
+
+export interface IModalData {
   content: HTMLElement;
 }
 
-interface IFormState {
+export interface IFormState {
   valid: boolean;
   errors: string[];
 }
 
-interface IPage {
+export interface IPage {
   counter: number;
   catalog: HTMLElement[];
   basket: HTMLElement;
 }
 
-interface ICard {
+export interface ICardActions {
+  onClick: (event: MouseEvent) => void;
+}
+
+export interface ICard {
   id: string;
   description?: string;
   image?: string;
   title: string;
-  category: string;
+  category?: string;
   price: number | null;
-  selected: boolean;
+  buttonText?: string;
+  selected?: boolean;
 }
 
-interface IBasket {
-  items: HTMLElement[];
+export interface IBasketCard {
+  title: string;
+  price: number | null;
+  prodactIndex: number;
+}
+
+export interface IBasket {
+  items: IProductItem[];
   price: number;
+  selected: string[];
 }
 
-interface ISuccess {
+export interface IPopupOrder {
+  payment: string;
+  address: string;
+}
+
+export interface ISuccess {
   total: number;
 }
 
-interface ISuccessActions {
+export interface ISuccessActions {
   onClick: () => void;
 }
 
-type EventName = string | RegExp;
-
-interface IEvents {
-  on<T extends object>(event: EventName, callback: (data: T) => void): void;
-  emit<T extends object>(event: string, data?: T): void;
-  trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void;
+export interface IOrderResult {
+  id: string;
+  total: number;
 }
