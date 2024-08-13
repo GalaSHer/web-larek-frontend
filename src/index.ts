@@ -2,7 +2,7 @@ import './scss/styles.scss';
 
 import { ApiAddition } from './components/ApiAddition';
 import {API_URL, CDN_URL} from "./utils/constants";
-import {EventEmitter} from "./components/base/Events";
+import {EventEmitter} from "./components/base/events";
 import {AppState} from "./components/AppState";
 import {Page} from "./components/Page";
 import {Card,CardPreview} from "./components/Card";

@@ -1,5 +1,5 @@
-import { IOrderModel, IOrderResult, IProductItem } from "../types";
-import {Api, ApiListResponse} from "./base/Api";
+import { IOrderModel, IOrderResult, IProductItem } from "../types/index";
+import {Api, ApiListResponse} from "./base/api";
 
 export class ApiAddition extends Api {
   readonly cdn: string;

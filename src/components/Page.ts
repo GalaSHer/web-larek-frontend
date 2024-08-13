@@ -1,5 +1,5 @@
 import {Component} from "./base/Component";
-import {IEvents} from "./base/Events";
+import {IEvents} from "./base/events";
 import {IPage} from "../types/index";
 import {ensureElement} from "../utils/utils";
 
