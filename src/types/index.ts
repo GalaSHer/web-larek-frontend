@@ -85,11 +85,6 @@ export interface IBasket {
   items: IProductItem[];
 }
 
-export interface IPopupOrder {
-  payment: string;
-  address: string;
-}
-
 export interface ISuccess {
   total: number;
 }
