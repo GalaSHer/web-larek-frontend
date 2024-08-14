@@ -1,9 +1,9 @@
-import { Form } from "./common/Form";
-import { IOrderModel } from "../types/index";
+import {Form} from "./common/Form";
+import {IOrderModel} from "../types/index";
 import {IEvents} from "./base/events";
 import {ensureElement} from "../utils/utils";
 
-export class PopupContacts extends Form<Partial<IOrderModel>> {
+export class FormContacts extends Form<Partial<IOrderModel>> {
   protected _emailInput: HTMLInputElement;
   protected _phoneInput: HTMLInputElement;
 

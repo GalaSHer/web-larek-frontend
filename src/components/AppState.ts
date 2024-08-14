@@ -3,9 +3,7 @@ import {FormErrors, IAppState, IBasket, IProductItem, IOrderModel } from "../typ
 
 export class AppState extends Model<IAppState> {
     basket: IBasket = {
-      items: [],
-      price: 0,
-      selected: []
+      items: []
     };
     catalog: IProductItem[];
     orderInfo: IOrderModel = {
@@ -32,9 +30,7 @@ export class AppState extends Model<IAppState> {
 
     clearBasket() {
         this.basket = {
-            items: [],
-            price: 0,
-            selected: []
+            items: []
         }
     }
 

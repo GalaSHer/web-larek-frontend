@@ -3,7 +3,7 @@ import { IOrderModel } from "../types/index";
 import {IEvents} from "./base/events";
 import {ensureElement} from "../utils/utils";
 
-export class PopupOrder extends Form<Partial<IOrderModel>> {
+export class FormOrder extends Form<Partial<IOrderModel>> {
   protected _byCardBtn: HTMLButtonElement;
   protected _byCashBtn: HTMLButtonElement;
   protected _input: HTMLInputElement;

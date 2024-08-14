@@ -83,8 +83,6 @@ export interface IBasketCard {
 
 export interface IBasket {
   items: IProductItem[];
-  price: number;
-  selected: string[];
 }
 
 export interface IPopupOrder {

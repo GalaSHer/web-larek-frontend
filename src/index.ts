@@ -5,14 +5,14 @@ import {API_URL, CDN_URL} from "./utils/constants";
 import {EventEmitter} from "./components/base/events";
 import {AppState} from "./components/AppState";
 import {Page} from "./components/Page";
-import {Card,CardPreview} from "./components/Card";
+import {CardMainPage, CardPreview, BasketCard} from "./components/Cards";
 import {cloneTemplate,  ensureElement} from "./utils/utils";
 import {Modal} from "./components/common/Modal";
-import {Basket, BasketCard} from "./components/Basket";
-import { PopupOrder } from './components/PopupOrder';
-import { PopupContacts } from './components/PopupContacts';
+import {Basket} from "./components/Basket";
+import { FormOrder } from './components/FormOrder';
+import { FormContacts } from './components/FormContacts';
 import {CatalogChangeEvent, IOrderModel, IProductItem} from "./types/index";
-import {PopupSuccess} from "./components/common/PopupSuccess";
+import {PopupSuccess} from "./components/PopupSuccess";
 
 const events = new EventEmitter();
 const api = new ApiAddition(CDN_URL, API_URL);
@@ -40,8 +40,8 @@ const modal = new Modal(ensureElement<HTMLElement>('#modal-container'), events);
 
 // // Переиспользуемые части интерфейса
 const basket = new Basket(cloneTemplate(basketTemplate), events);
-const orderForm = new PopupOrder(cloneTemplate(orderFormTemplate), events);
-const contactsForm = new PopupContacts(cloneTemplate(contactsFormTemplate), events);
+const orderForm = new FormOrder(cloneTemplate(orderFormTemplate), events);
+const contactsForm = new FormContacts(cloneTemplate(contactsFormTemplate), events);
 
 // Дальше идет бизнес-логика
 
@@ -58,7 +58,7 @@ api
 // Изменились элементы каталога
 events.on<CatalogChangeEvent>('catalog:changed', () => {
     page.catalog = appData.catalog.map(item => {
-        const card = new Card('card', cloneTemplate(cardCatalogTemplate), {
+        const card = new CardMainPage('card', cloneTemplate(cardCatalogTemplate), {
             onClick: () => events.emit('card:select', item)
         });
         return card.render({
@@ -145,7 +145,7 @@ events.on('card:delete', (item: IProductItem) => {
 
 // открыть окно оформления заказа
 events.on('basket:makeOrder', () => {
-  appData.basket.price = appData.getTotalPrice();
+  appData.getTotalPrice();
   modal.render({
     content: orderForm.render({
       valid: false,
@@ -185,9 +185,10 @@ events.on('order:submit', () => {
 
 // Подтверждены контактные данные, отправляем заказ
 events.on('contacts:submit', () => {
-    contactsForm.changeBtnText('Оформляем заказ...')
-    const id = appData.getProductIDs()
-    api.orderProducts(appData.orderInfo, appData.basket.price, id)
+    contactsForm.changeBtnText('Оформляем заказ...');
+    const id = appData.getProductIDs();
+    const price = appData.getTotalPrice();
+    api.orderProducts(appData.orderInfo, price, id)
         .then((result) => {
             const success = new PopupSuccess(cloneTemplate(successTemplate), {
               onClick: () => {
@@ -198,6 +199,7 @@ events.on('contacts:submit', () => {
             page.counter = appData.countProducts();
             orderForm.clearForm();
             contactsForm.clearForm();
+            contactsForm.changeBtnText('Оплатить');
 
             modal.render({
                 content: success.render({
@@ -219,5 +221,3 @@ events.on('modal:open', () => {
  events.on('modal:close', () => {
     page.setLocked(false);
  });
-
-

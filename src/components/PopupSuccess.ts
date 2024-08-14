@@ -1,6 +1,6 @@
-import {Component} from "../base/Component";
-import {ensureElement} from "../../utils/utils";
-import { ISuccess, ISuccessActions } from "../../types/index";
+import {Component} from "./base/Component";
+import {ensureElement} from "../utils/utils";
+import { ISuccess, ISuccessActions } from "../types/index";
 
 export class PopupSuccess extends Component<ISuccess> {
     protected _close: HTMLElement;
