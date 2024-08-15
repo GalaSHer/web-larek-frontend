@@ -116,10 +116,10 @@ events.on('card:deletefromPreview', (item: IProductItem) => {
 // открыть корзину
 events.on('basket:open', () => {
   basket.total = appData.getTotalPrice();
-  appData.basket.items.length === 0 ? basket.disableBasketBtn(true) : basket.disableBasketBtn(false);
+  appData.basket.length === 0 ? basket.disableBasketBtn(true) : basket.disableBasketBtn(false);
 
   let i = 0;
-  basket.list = appData.basket.items.map(item => {
+  basket.list = appData.basket.map(item => {
     const basketCard = new BasketCard(cloneTemplate(cardBasketTemplate), {
       onClick: () => {events.emit('card:delete', item)}
     });

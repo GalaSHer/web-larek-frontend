@@ -1,10 +1,8 @@
 import {Model} from "./base/model";
-import {FormErrors, IAppState, IBasket, IProductItem, IOrderModel } from "../types/index";
+import {FormErrors, IAppState, IProductItem, IOrderModel } from "../types/index";
 
 export class AppState extends Model<IAppState> {
-    basket: IBasket = {
-      items: []
-    };
+    basket: IProductItem[] = [];
     catalog: IProductItem[];
     orderInfo: IOrderModel = {
       payment: '',
@@ -21,29 +19,27 @@ export class AppState extends Model<IAppState> {
     }
 
     addToBasket(data: IProductItem) {
-        this.basket.items.push(data);
+        this.basket.push(data);
     }
 
     removeFromBasket(data: IProductItem) {
-        this.basket.items = this.basket.items.filter(item => item.id !== data.id);
+        this.basket = this.basket.filter(item => item.id !== data.id);
     }
 
     clearBasket() {
-        this.basket = {
-            items: []
-        }
+        this.basket = []
     }
 
     isInBasket(productId: string): boolean {
-      return this.basket.items.some(item => item.id === productId);
+      return this.basket.some(item => item.id === productId);
     }
 
     getTotalPrice() {
-      return this.basket.items.reduce((sum, item) => {return sum + item.price}, 0)
+      return this.basket.reduce((sum, item) => {return sum + item.price}, 0)
     }
 
     countProducts() {
-      return this.basket.items.length
+      return this.basket.length
     }
 
    setPreview(item:  IProductItem) {
@@ -89,6 +85,6 @@ export class AppState extends Model<IAppState> {
     }
 
     getProductIDs() { 
-        return this.basket.items.map(item => item.id);
+        return this.basket.map(item => item.id);
     }
 }

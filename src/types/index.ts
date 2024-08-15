@@ -17,7 +17,7 @@ export type CatalogChangeEvent = {
 };
 
 export interface IAppState {
-  basket: IBasket;
+  basket: IProductItem[];
   catalog: IProductItem[];
   order: IOrderModel;
   preview: string | null;
