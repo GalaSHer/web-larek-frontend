@@ -114,18 +114,17 @@ events.on('card:deletefromPreview', (item: IProductItem) => {
   })
 
 // открыть корзину
+
 events.on('basket:open', () => {
   basket.total = appData.getTotalPrice();
   appData.basket.length === 0 ? basket.disableBasketBtn(true) : basket.disableBasketBtn(false);
 
-  let i = 0;
-  basket.list = appData.basket.map(item => {
+  basket.list = appData.basket.map((item, index) => {
     const basketCard = new BasketCard(cloneTemplate(cardBasketTemplate), {
       onClick: () => {events.emit('card:delete', item)}
     });
-    i++;
-    basketCard.productIndex = i
-      return basketCard.render({
+    basketCard.productIndex = index + 1;
+    return basketCard.render({
         title: item.title,
         price: item.price   
     });
